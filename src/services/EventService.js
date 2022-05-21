@@ -20,8 +20,8 @@ apiClient.interceptors.response.use(response => {
 })
 
 export default {
-  getEvents() {
-    return apiClient.get('/events')
+  getEvents(limitPage, page) {
+    return apiClient.get(`/events?_limit=${limitPage}&_page=${page}`)
   },
   getEvent(id) {
     return apiClient.get('/events/' + id)
