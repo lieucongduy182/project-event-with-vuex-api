@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1>Events Listing</h1>
-    <EventCard v-for="event in events" :key="event.id" :event="event"/>
-    <template v-if="page >= 1">
-      <router-link :to="{name: 'event-list', query: {page: page - 1}}" rel="prev" v-if="eventsTotalCount && page > 1">Prev Page</router-link>&nbsp;
-      <router-link :to="{name: 'event-list', query: {page: page + 1}}" rel="next" v-if="eventsTotalCount && eventsTotalCount > page * 3">Next Page</router-link>
-    </template>
+    <h1>Events Listing {{user.user.name}}</h1>
+    <EventCard v-for="event in event.events" :key="event.id" :event="event"/>
+    <div v-if="page >= 1" style="margin: auto; text-align: center">
+      <router-link :to="{name: 'event-list', query: {page: page - 1}}" rel="prev" v-if="event.eventsTotalCount && page > 1">Prev Page</router-link>&nbsp;
+      <router-link :to="{name: 'event-list', query: {page: page + 1}}" rel="next" v-if="event.eventsTotalCount && event.eventsTotalCount > page * 3">Next Page</router-link>
+    </div>
   </div>
 </template>
 
@@ -20,10 +20,10 @@ export default {
     page() {
       return parseInt(this.$route.query.page) || 1
     },
-    ...mapState(['events', 'user', 'eventsTotalCount'])
+    ...mapState(['event', 'user'])
   },
   created() {
-    this.$store.dispatch('fetchEvents', {
+    this.$store.dispatch('event/fetchEvents', {
       limitPage: 3,
       page: this.page
     })
